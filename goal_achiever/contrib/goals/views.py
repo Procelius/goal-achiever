@@ -1,3 +1,11 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .models import Goal
+
+
+def goal_list(request):
+    goals = Goal.objects.all()
+    context = {
+        "goals": goals,
+    }
+    return render(request, "goals/goal_list.html", context)
