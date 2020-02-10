@@ -12,3 +12,9 @@ class GoalForm(forms.ModelForm):
             'tasks',
             'restrictions',
         ]
+        widgets = {
+            'name': forms.TextInput,
+            'description': forms.TextInput,
+            'tasks': forms.CheckboxSelectMultiple,
+            'restrictions': forms.CheckboxSelectMultiple,
+        }

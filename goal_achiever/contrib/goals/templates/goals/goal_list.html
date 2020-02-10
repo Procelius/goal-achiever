@@ -1,15 +1,40 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %}
+
+{% block style %}
+  <style>
+    .container {
+      border: 1px solid black;
+      border-radius: 10px;
+      padding: 0 30px 30px 30px;
+      margin: 20px;
+    }
+  </style>
+{% endblock %}
 
 {% block content %}
-<h2>Goal List:</h2>
-<ul>
-  {% for goal in goals %}
-    <li>{{ goal.name }}</li>
-  {% endfor %}
-</ul>
-<form action="" method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Submit">
-</form>
+<div class="container" id="goal-list">
+  <h2>Goal List:</h2>
+  <ul>
+    {% for goal in goals %}
+      <li>{{ goal.name }}</li>
+    {% endfor %}
+  </ul>
+</div>
+<div class="container" id="new-goal">
+  <h2>Create New Goal:</h2>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <label for="{{ form.name.id_for_label }}">Name:</label>
+    {{ form.name }}
+    <br><br>
+    <label for="{{ form.description.id_for_label }}">Description:</label>
+    {{ form.description }}
+    <br><br>
+    <label for="{{ form.tasks.id_for_label }}">Tasks:</label>
+    {{ form.tasks }}
+    <label for="{{ form.restrictions.id_for_label }}">Restrictions:</label>
+    {{ form.restrictions }}
+    <input type="submit" value="Submit">
+  </form>
+</div>
 {% endblock %}
