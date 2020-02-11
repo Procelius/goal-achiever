@@ -22,19 +22,46 @@
 </div>
 <div class="container" id="new-goal">
   <h2>Create New Goal:</h2>
-  <form action="" method="POST">
-    {% csrf_token %}
-    <label for="{{ form.name.id_for_label }}">Name:</label>
-    {{ form.name }}
-    <br><br>
-    <label for="{{ form.description.id_for_label }}">Description:</label>
-    {{ form.description }}
-    <br><br>
-    <label for="{{ form.tasks.id_for_label }}">Tasks:</label>
-    {{ form.tasks }}
-    <label for="{{ form.restrictions.id_for_label }}">Restrictions:</label>
-    {{ form.restrictions }}
-    <input type="submit" value="Submit">
-  </form>
+  <div class="hidden" id="goal-form">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name='action' value="new_goal">
+      <label for="{{ goal_form.name.id_for_label }}">Name:</label>
+      {{ goal_form.name }}
+      <br><br>
+      <label for="{{ goal_form.description.id_for_label }}">Description:</label>
+      {{ goal_form.description }}
+      <br><br>
+      <label for="{{ goal_form.tasks.id_for_label }}">Tasks:</label>
+      {{ goal_form.tasks }}
+      <label for="{{ goal_form.restrictions.id_for_label }}">Restrictions:</label>
+      {{ goal_form.restrictions }}
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+<div class="container" id="new-task">
+  <h2>Create New Task:</h2>
+  <div class="hidden" id="task-form">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name='action' value="new_task">
+      {{ task_form.name }}
+      {{ task_form.description }}
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+<div class="container" id="new-restriction">
+  <h2>Create New Restriction:</h2>
+  <div class="hidden" id="restriction-form">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name='action' value="new_restriction">
+      {{ restriction_form.name }}
+      {{ restriction_form.description }}
+      <input type="submit" value="Submit">
+    </form>
+  </div>
 </div>
 {% endblock %}
