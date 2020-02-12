@@ -1,11 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 
-from .models import Goal
+from .models import Goal, Task, Restriction
 from .forms import GoalForm, TaskForm, RestrictionForm
 
 
 def goal_list(request):
     goals = Goal.objects.all()
+    tasks = Task.objects.all()
+    restrictions = Restriction.objects.all()
     goal_form = GoalForm()
     task_form = TaskForm()
     restriction_form = RestrictionForm()
@@ -23,9 +25,12 @@ def goal_list(request):
             restriction_form = RestrictionForm(request.POST)
             if restriction_form.is_valid():
                 restriction_form.save()
+        return HttpResponseRedirect("/goal_achiever/")
 
     context = {
         "goals": goals,
+        "tasks": tasks,
+        "restrictions": restrictions,
         "goal_form": goal_form,
         "task_form": task_form,
         "restriction_form": restriction_form,
