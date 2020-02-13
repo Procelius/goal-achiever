@@ -1,31 +1,24 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import (render, HttpResponseRedirect, get_object_or_404,
+                              redirect, )
 
 from .models import Goal, Task, Restriction
 from .forms import GoalForm, TaskForm, RestrictionForm
 
 
 def goal_list(request):
-    goals = Goal.objects.all()
-    tasks = Task.objects.all()
-    restrictions = Restriction.objects.all()
-    goal_form = GoalForm()
-    task_form = TaskForm()
-    restriction_form = RestrictionForm()
     if request.POST:
-        action = request.POST["action"]
-        if action == "new_goal":
-            goal_form = GoalForm(request.POST)
-            if goal_form.is_valid():
-                goal_form.save()
-        elif action == "new_task":
-            task_form = TaskForm(request.POST)
-            if task_form.is_valid():
-                task_form.save()
-        elif action == "new_restriction":
-            restriction_form = RestrictionForm(request.POST)
-            if restriction_form.is_valid():
-                restriction_form.save()
+        form_type = request.POST["form_type"]
+        form = _get_form(form_type)(request.POST)
+        if form.is_valid():
+            form.save()
         return HttpResponseRedirect("/goal_achiever/")
+    else:
+        goal_form = GoalForm()
+        task_form = TaskForm()
+        restriction_form = RestrictionForm()
+        goals = Goal.objects.all()
+        tasks = Task.objects.all()
+        restrictions = Restriction.objects.all()
 
     context = {
         "goals": goals,
@@ -36,3 +29,39 @@ def goal_list(request):
         "restriction_form": restriction_form,
     }
     return render(request, "goals/goal_list.html", context)
+
+
+def edit_item(request, item_type, pk):
+    item_class = _get_class(item_type)
+    item_form = _get_form(item_type)
+    item = get_object_or_404(item_class, pk=pk)
+    if request.method == "POST":
+        form = item_form(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect('goal_list')
+    else:
+        form = item_form(instance=item)
+    context = {
+        "form": form,
+        "item": item,
+    }
+    return render(request, "goals/edit_item.html", context)
+
+
+def _get_class(class_name):
+    classes_dict = {
+        "goal": Goal,
+        "task": Task,
+        "restriction": Restriction,
+    }
+    return classes_dict[class_name]
+
+
+def _get_form(class_name):
+    forms_dict = {
+        "goal": GoalForm,
+        "task": TaskForm,
+        "restriction": RestrictionForm,
+    }
+    return forms_dict[class_name]

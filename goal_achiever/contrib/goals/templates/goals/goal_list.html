@@ -6,51 +6,51 @@
 
 {% block content %}
 
-<div class="container" id="goal-list">
+<div class="container">
   <h2>Goal List:</h2>
   <ul>
     {% for goal in goals %}
-      <li>{{ goal.name }}</li>
+      <li><a href="{% url 'edit_item' item_type='goal' pk=goal.pk %}">{{ goal }}</a></li>
     {% endfor %}
   </ul>
 </div>
 
-<div class="container" id="new-goal">
+<div class="container">
   <h2>Create New Goal:</h2>
   <div class="hidden" id="goal-form">
     <form action="" method="POST">
       {% csrf_token %}
-      <input type="hidden" name='action' value="new_goal">
+      <input type="hidden" name='form_type' value="goal">
       <label for="{{ goal_form.name.id_for_label }}">Name:</label>
       {{ goal_form.name }}
       <br><br>
       <label for="{{ goal_form.description.id_for_label }}">Description:</label>
       {{ goal_form.description }}
       <br><br>
-      <label for="{{ goal_form.tasks.id_for_label }}">Tasks:</label>
+      <label for="id_tasks">Tasks:</label>
       {{ goal_form.tasks }}
-      <label for="{{ goal_form.restrictions.id_for_label }}">Restrictions:</label>
+      <label for="id_restrictions">Restrictions:</label>
       {{ goal_form.restrictions }}
       <input type="submit" value="Submit">
     </form>
   </div>
 </div>
 
-<div class="container" id="task-list">
+<div class="container">
   <h2>Task List:</h2>
   <ul>
     {% for task in tasks %}
-      <li>{{ task.name }}</li>
+      <li><a href="{% url 'edit_item' item_type='task' pk=task.pk %}">{{ task }}</a></li>
     {% endfor %}
   </ul>
 </div>
 
-<div class="container" id="new-task">
+<div class="container">
   <h2>Create New Task:</h2>
   <div class="hidden" id="task-form">
     <form action="" method="POST">
       {% csrf_token %}
-      <input type="hidden" name='action' value="new_task">
+      <input type="hidden" name='form_type' value="task">
       <label for="{{ task_form.name.id_for_label }}">Name:</label>
       {{ task_form.name }}
       <br><br>
@@ -61,21 +61,21 @@
   </div>
 </div>
 
-<div class="container" id="restriction-list">
+<div class="container">
   <h2>Restriction List:</h2>
   <ul>
     {% for restriction in restrictions %}
-      <li>{{ restriction.name }}</li>
+      <li><a href="{% url 'edit_item' item_type='restriction' pk=restriction.pk %}">{{ restriction }}</a></li>
     {% endfor %}
   </ul>
 </div>
 
-<div class="container" id="new-restriction">
+<div class="container">
   <h2>Create New Restriction:</h2>
   <div class="hidden" id="restriction-form">
     <form action="" method="POST">
       {% csrf_token %}
-      <input type="hidden" name='action' value="new_restriction">
+      <input type="hidden" name='form_type' value="restriction">
       <label for="{{ restriction_form.name.id_for_label }}">Name:</label>
       {{ restriction_form.name }}
       <br><br>
@@ -86,4 +86,12 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block js %}
+  <script>
+    $(document).ready(function() {
+      console.log('js is ready.')
+    });
+  </script>
 {% endblock %}
