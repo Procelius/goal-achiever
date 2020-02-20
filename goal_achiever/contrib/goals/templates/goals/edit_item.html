@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block style %}
+  <link rel="stylesheet" type="text/css" href="{% static 'goals/css/goals.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Edit page:</h2>
+  <h3>{{ item }}</h3>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit">
+    <a href="{% url 'goal_list' %}">Cancel</a>
+  </form>
+</div>
+{% endblock %}
