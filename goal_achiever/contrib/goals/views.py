@@ -36,10 +36,15 @@ def edit_item(request, item_type, pk):
     item_form = _get_form(item_type)
     item = get_object_or_404(item_class, pk=pk)
     if request.method == "POST":
-        form = item_form(request.POST, instance=item)
-        if form.is_valid():
-            form.save()
-            return redirect('goal_list')
+        if request.POST.get('edit'):
+            form = item_form(request.POST, instance=item)
+            if form.is_valid():
+                form.save()
+        elif request.POST.get('delete'):
+            item.delete()
+        else:
+            raise Exception('Wrong request!', request.POST.values)
+        return redirect('goal_list')
     else:
         form = item_form(instance=item)
     context = {
