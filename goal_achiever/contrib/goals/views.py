@@ -1,10 +1,12 @@
 from django.shortcuts import (render, HttpResponseRedirect, get_object_or_404,
                               redirect, )
+from django.contrib.auth.decorators import login_required
 
 from .models import Goal, Task, Restriction
 from .forms import GoalForm, TaskForm, RestrictionForm
 
 
+@login_required
 def goal_list(request):
     if request.POST:
         form_type = request.POST["form_type"]
@@ -31,6 +33,7 @@ def goal_list(request):
     return render(request, "goals/goal_list.html", context)
 
 
+@login_required
 def edit_item(request, item_type, pk):
     item_class = _get_class(item_type)
     item_form = _get_form(item_type)
