@@ -16,7 +16,7 @@
   {% else %}
     <a href="{% url 'login' %}">Login</a>
   {% endif %}
-  <h1>Welcome to Goal Achiever</h1>
+    <h1>Welcome to Goal Achiever{% if user.is_authenticated %}, {{ user.get_username }}.{% else %}{% endif %}</h1>
   {% block content %}
   {% endblock %}
 </body>

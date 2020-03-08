@@ -10,7 +10,18 @@
   <h3>{{ item }}</h3>
   <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    <label for="{{ form.name.id_for_label }}">Name:</label><br>
+    {{ form.name }}
+    <br><br>
+    <label for="{{ form.description.id_for_label }}">Description:</label><br>
+    {{ form.description }}
+    <br><br>
+    {% if form.tasks %}
+      <label for="id_tasks">Tasks:</label>
+      {{ form.tasks }}
+      <label for="id_restrictions">Restrictions:</label>
+      {{ form.restrictions }}
+    {% endif %}
     <input type="submit" id="save" name="edit" value="Save">
     <input type="submit" id="delete" name="delete" value="Delete">
     <a href="{% url 'goal_list' %}">Cancel</a>
