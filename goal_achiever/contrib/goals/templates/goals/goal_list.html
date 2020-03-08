@@ -7,7 +7,7 @@
 {% block content %}
 
 <div class="container">
-  <h2>Goal List:</h2>
+  <h2>Goal List</h2>
   <ul>
     {% for goal in goals %}
       <li><a href="{% url 'edit_item' item_type='goal' pk=goal.pk %}">{{ goal }}</a></li>
@@ -15,9 +15,9 @@
   </ul>
 </div>
 
-<div class="container">
-  <h2>Create New Goal:</h2>
-  <div id="goal-form">
+<div class="container switch">
+  <h3>Create New Goal</h3>
+  <div class="accordion">
     <form action="" method="POST">
       {% csrf_token %}
       <input type="hidden" name='form_type' value="goal">
@@ -32,12 +32,14 @@
       <label for="id_restrictions">Restrictions:</label>
       {{ goal_form.restrictions }}
       <input type="submit" value="Submit">
+      <span class="cancel">Cancel</span>
+      <br><br>
     </form>
   </div>
 </div>
 
 <div class="container">
-  <h2>Task List:</h2>
+  <h2>Task List</h2>
   <ul>
     {% for task in tasks %}
       <li><a href="{% url 'edit_item' item_type='task' pk=task.pk %}">{{ task }}</a></li>
@@ -45,9 +47,9 @@
   </ul>
 </div>
 
-<div class="container">
-  <h2>Create New Task:</h2>
-  <div id="task-form">
+<div class="container switch">
+  <h3>Create New Task</h3>
+  <div class="accordion">
     <form action="" method="POST">
       {% csrf_token %}
       <input type="hidden" name='form_type' value="task">
@@ -58,12 +60,14 @@
       {{ task_form.description }}
       <br>
       <input type="submit" value="Submit">
+      <span class="cancel">Cancel</span>
+      <br><br>
     </form>
   </div>
 </div>
 
 <div class="container">
-  <h2>Restriction List:</h2>
+  <h2>Restriction List</h2>
   <ul>
     {% for restriction in restrictions %}
       <li><a href="{% url 'edit_item' item_type='restriction' pk=restriction.pk %}">{{ restriction }}</a></li>
@@ -71,9 +75,9 @@
   </ul>
 </div>
 
-<div class="container">
-  <h2>Create New Restriction:</h2>
-  <div id="restriction-form">
+<div class="container switch">
+  <h3>Create New Restriction</h3>
+  <div class="accordion">
     <form action="" method="POST">
       {% csrf_token %}
       <input type="hidden" name='form_type' value="restriction">
@@ -84,6 +88,8 @@
       {{ restriction_form.description }}
       <br>
       <input type="submit" value="Submit">
+      <span class="cancel">Cancel</span>
+      <br><br>
     </form>
   </div>
 </div>
@@ -93,7 +99,14 @@
 {% block js %}
   <script>
     $(document).ready(function() {
-      console.log('js is ready.')
+      $('.container.switch').on('click', function(e) {
+        var $goalForm = $(this).find('div.accordion');
+        if ($goalForm.css('height') == '0px') {
+          $goalForm.css('height', 'auto');
+        } else if (e.target.className == 'cancel') {
+          $goalForm.css('height', '0');
+        }
+      });
     });
   </script>
 {% endblock %}
