@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from . import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('goal_achiever/', include('goal_achiever.contrib.goals.urls'))
+    path('goal_achiever/', include('goal_achiever.contrib.goals.urls')),
+    path('', views.welcome, name="welcome")
 ]
