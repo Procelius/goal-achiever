@@ -8,19 +8,22 @@ from .forms import GoalForm, TaskForm, RestrictionForm
 
 @login_required
 def goal_list(request):
+    user = request.user
     if request.POST:
         form_type = request.POST["form_type"]
         form = _get_form(form_type)(request.POST)
         if form.is_valid():
-            form.save()
+            item = form.save()
+            item.user = user
+            item.save()
         return HttpResponseRedirect("/goal_achiever/")
     else:
         goal_form = GoalForm()
         task_form = TaskForm()
         restriction_form = RestrictionForm()
-        goals = Goal.objects.all()
-        tasks = Task.objects.all()
-        restrictions = Restriction.objects.all()
+        goals = Goal.objects.filter(user=user)
+        tasks = Task.objects.filter(user=user)
+        restrictions = Restriction.objects.filter(user=user)
 
     context = {
         "goals": goals,
