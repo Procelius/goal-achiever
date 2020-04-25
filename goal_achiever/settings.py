@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # 'goal_achiever',
     'goal_achiever.apps.Goals',
+    'goal_achiever.apps.Schedules'
 ]
 
 MIDDLEWARE = [

@@ -1,10 +1,13 @@
 from django.apps import AppConfig
 
+path = "goal_achiever.contrib."
+
 
 class Goals(AppConfig):
-    name = "goal_achiever.contrib.goals"
+    name = path + "goals"
     verbose_name = "Goals"
 
 
-class SchedulesConfig(AppConfig):
-    name = 'schedules'
+class Schedules(AppConfig):
+    name = path + "schedules"
+    verbose_name = "Schedules"

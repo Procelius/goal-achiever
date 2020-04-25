@@ -1,5 +1,5 @@
-from django.shortcuts import HttpResponse
+from django.shortcuts import render
 
 
-def index(request):
-    return HttpResponse("schedule app")
+def schedules(request):
+    return render(request, "schedules/schedules.html", {})
