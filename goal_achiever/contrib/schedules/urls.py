@@ -4,4 +4,5 @@ from . import views
 
 urlpatterns = [
     path('schedules/', views.schedules, name='schedules'),
+    path('schedules/edit/day/<int:pk>', views.edit_day, name='edit_day'),
 ]

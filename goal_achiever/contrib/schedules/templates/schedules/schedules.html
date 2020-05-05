@@ -2,4 +2,25 @@
 
 {% block content %}
 <h2>Schedules</h2>
+<div class="container">
+  <h3>Day Schedules</h3>
+  <ul>
+    {% for d in day_schedules %}
+      <li><a href="{% url 'edit_day' pk=d.pk %}">{{ d }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="container switch">
+  <h3>Create Day Schedule</h3>
+  <div class="accordion">
+    <form action="" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Submit">
+      <span class="cancel">Cancel</span>
+      <br><br>
+    </form>
+  </div>
+</div>
 {% endblock %}

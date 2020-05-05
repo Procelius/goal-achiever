@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block content %}
+<div class="container">
+  <h1>Edit Day Schedule</h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" id="save" name="edit" value="Save">
+    <input type="submit" id="delete" name="delete" value="Delete">
+    <a href="{% url 'schedules' %}">Cancel</a>
+  </form>
+  <br><br>
+</div>
+{% endblock %}
