@@ -2,13 +2,32 @@
 
 {% block content %}
 <div class="container">
-  <h1>Edit Day Schedule</h1>
+  <h2>Edit Day Schedule</h1>
   <form action="" method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" id="save" name="edit" value="Save">
-    <input type="submit" id="delete" name="delete" value="Delete">
+    {{ day_form.as_p }}
+    <input type="submit" id="save" name="edit_day" value="Save">
+    <input type="submit" id="delete" name="delete_day" value="Delete">
     <a href="{% url 'schedules' %}">Cancel</a>
+  </form>
+  <br><br>
+</div>
+
+<div class="container">
+  <h2>Day Task List</h2>
+  <ul>
+    {% for day_task in day_tasks %}
+      <li><a href="{# url 'edit_item' item_type='task' pk=task.pk #}">{{ day_task }}</a><b> : {{day_task.start}} - {{day_task.end}}</b></li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="container">
+  <h2>Add Day Tasks</h2>
+  <form action="" method="POST">
+    {% csrf_token %}
+    {{ day_task_form.as_p }}
+    <input type="submit" name="add_task" value="Add">
   </form>
   <br><br>
 </div>

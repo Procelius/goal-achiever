@@ -30,19 +30,32 @@ def edit_day(request, pk):
     user = request.user
     instance = get_object_or_404(DaySchedule, pk=pk)
     if request.method == "POST":
-        if request.POST.get('edit'):
+        if request.POST.get('edit_day'):
             form = DayScheduleForm(data=request.POST, user=user, instance=instance)
             if form.is_valid():
                 form.save()
-        elif request.POST.get('delete'):
+        elif request.POST.get('delete_day'):
             instance.delete()
+        elif request.POST.get('add_task'):
+            form = TimePeriodForm(data=request.POST, user=user)
+            if form.is_valid():
+                data = form.data
+                form.instance.duration = _calc_duration(data['start'], data['end'])
+                form.instance.day_schedule = instance
+                form.save()
+                return redirect(request.path)
         else:
             raise Exception('Wrong request!', request.POST.values)
         return redirect('schedules')
-    else:
-        form = DayScheduleForm(user=user, instance=instance)
+
+    day_form = DayScheduleForm(user=user, instance=instance)
+    day_task_form = TimePeriodForm(user=user)
+    day_tasks = TimePeriod.objects.filter(day_schedule=instance)
+
     context = {
-        "form": form,
+        "day_form": day_form,
+        "day_task_form": day_task_form,
+        "day_tasks": day_tasks,
         "instance": instance,
     }
     return render(request, "schedules/edit_day.html", context)
@@ -53,21 +66,3 @@ def _calc_duration(start, end):
     end = datetime.datetime.strptime(end, "%H:%M")
     duration = str(end - start)
     return duration
-
-# if request.POST:
-#     form = TimePeriodForm(data=request.POST, user=user)
-#     data = form.data
-#     if form.is_valid():
-#         duration = _calc_duration(data['start'], data['end'])
-#         form.instance.duration = duration
-#         form.instance.user = user
-#         form.save()
-#     else:
-#         print('FORM IS NOT VALID')
-#     return HttpResponseRedirect("/goal_achiever/schedules/")
-# form = TimePeriodForm(user=user)
-# time_periods = TimePeriod.objects.filter(schedule_id=)
-# context = {
-#     "form": form,
-#     "time_periods": time_periods,
-# }
